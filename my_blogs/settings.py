@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
-from django.conf.global_settings import MEDIA_ROOT
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
+from django.conf.global_settings import MEDIA_ROOT, EMAIL_USE_TLS
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -141,3 +146,12 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = 'blog:home'
 LOGOUT_REDIRECT_URL = 'users:do-logout'
 LOGIN_URL = 'login'
+
+#SMTP Configurations
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_PASS')
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # Default sender email
